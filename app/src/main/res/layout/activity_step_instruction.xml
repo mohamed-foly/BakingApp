@@ -6,44 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".step_instructionActivity">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/Master_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent" >
 
-        <VideoView
-            android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
-        <TextView
-            android:id="@+id/desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/pervious"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="pervious"
-                android:text="@string/previous" />
-
-            <Button
-                android:id="@+id/fullscreen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="full_screen"
-                android:text="@string/full" />
-            <Button
-                android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="next"
-                android:text="@string/next" />
-        </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 
 </ScrollView>

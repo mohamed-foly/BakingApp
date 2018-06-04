@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.mohamed.bakingapp.adapters.IngredientAdapter;
 import com.example.mohamed.bakingapp.adapters.RecipesAdapter;
 import com.example.mohamed.bakingapp.adapters.StepsAdapter;
+import com.example.mohamed.bakingapp.interfaces.OnStepSelected;
 import com.example.mohamed.bakingapp.model.Ingredient;
 import com.example.mohamed.bakingapp.model.Recipe;
 import com.example.mohamed.bakingapp.model.Step;
@@ -28,12 +29,16 @@ List<Step> steps;
     List<Ingredient> ingredients;
     StepsAdapter stepsAdapter;
     IngredientAdapter ingredientAdapter;
+
+    OnStepSelected onStepSelected;
+
     public Recipe_detailsFragment() {
     }
     @SuppressLint("ValidFragment")
-    public Recipe_detailsFragment(List<Step> steps , List<Ingredient> ingredients) {
+    public Recipe_detailsFragment(List<Step> steps , List<Ingredient> ingredients , OnStepSelected onStepSelected) {
         this.steps = steps;
         this.ingredients= ingredients;
+        this.onStepSelected =onStepSelected;
     }
 
     @Override
@@ -51,13 +56,15 @@ List<Step> steps;
             @Override
             public void onItemClick(Step item) {
                 //Toast.makeText(getContext(), "not Finished Yet", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(),step_instructionActivity.class);
-                ArrayList<Step> steps_Array = new ArrayList<>(steps);
-                intent.putExtra("step",steps.indexOf(item));
+onStepSelected.onStepSelected_listener(item);
 
-
-                intent.putParcelableArrayListExtra("steps",steps_Array);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(),step_instructionActivity.class);
+//                ArrayList<Step> steps_Array = new ArrayList<>(steps);
+//                intent.putExtra("step",steps.indexOf(item));
+//
+//
+//                intent.putParcelableArrayListExtra("steps",steps_Array);
+//                startActivity(intent);
             }
         };
 
