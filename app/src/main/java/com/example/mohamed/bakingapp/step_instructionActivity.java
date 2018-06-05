@@ -14,6 +14,7 @@ public class step_instructionActivity extends AppCompatActivity {
     ArrayList<Step> steps ;
 
     Step_instructionFragment step_instructionFragment;
+    FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,9 +24,9 @@ public class step_instructionActivity extends AppCompatActivity {
             steps = bundle.getParcelableArrayList("steps");
             step =  steps.get(bundle.getInt("step"));
             //load_step();
-            FragmentManager fragmentManager = getSupportFragmentManager() ;
+            fragmentManager = getSupportFragmentManager() ;
             step_instructionFragment = new Step_instructionFragment(steps,step);
-            fragmentManager.beginTransaction().add(R.id.Master_fragment_container,step_instructionFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.Master_fragment_container,step_instructionFragment).commit();
 
 
         }

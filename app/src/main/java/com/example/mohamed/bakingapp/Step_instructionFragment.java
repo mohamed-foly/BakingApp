@@ -1,10 +1,10 @@
 package com.example.mohamed.bakingapp;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +30,8 @@ public class Step_instructionFragment extends Fragment {
 
     View masterView ;
     Button fullscreen,next,pervious;
+    public Step_instructionFragment() {
+    }
     @SuppressLint("ValidFragment")
     public Step_instructionFragment(ArrayList<Step> steps , Step step) {
         // Required empty public constructor
@@ -43,12 +45,10 @@ public class Step_instructionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         masterView = inflater.inflate(R.layout.fragment_step_instruction, container, false);
