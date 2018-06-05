@@ -24,9 +24,11 @@ import java.util.List;
 
 
 public class Recipe_detailsFragment extends Fragment {
-View masterView;
-List<Step> steps;
+    View masterView;
+
+    List<Step> steps;
     List<Ingredient> ingredients;
+
     StepsAdapter stepsAdapter;
     IngredientAdapter ingredientAdapter;
 
@@ -55,16 +57,8 @@ List<Step> steps;
         StepsAdapter.OnItemClickListener onItemClickListener = new StepsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Step item) {
-                //Toast.makeText(getContext(), "not Finished Yet", Toast.LENGTH_SHORT).show();
-onStepSelected.onStepSelected_listener(item);
 
-//                Intent intent = new Intent(getContext(),step_instructionActivity.class);
-//                ArrayList<Step> steps_Array = new ArrayList<>(steps);
-//                intent.putExtra("step",steps.indexOf(item));
-//
-//
-//                intent.putParcelableArrayListExtra("steps",steps_Array);
-//                startActivity(intent);
+            onStepSelected.onStepSelected_listener(item);
             }
         };
 

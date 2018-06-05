@@ -32,29 +32,9 @@ public class Recipe_details extends AppCompatActivity implements OnStepSelected 
 
         steps = recipe.getSteps();
         ingredients = recipe.getIngredients();
-
         fragmentManager = getSupportFragmentManager() ;
-
-
         recipe_detailsFragment = new Recipe_detailsFragment(steps,ingredients,this);
-
-        fragmentManager.beginTransaction().add(R.id.Details_fragment_container,recipe_detailsFragment).commit();
-
-
-
-        
-        if (bundle != null) {
-            //steps = bundle.getParcelableArrayList("steps");
-            //Step step = steps.get(bundle.getInt("step"));
-            //load_step();
-            //FragmentManager fragmentManager = getSupportFragmentManager() ;
-//            ArrayList<Step> steps_Array = new ArrayList<>(steps);
-//
-//            Step_instructionFragment step_instructionFragment = new Step_instructionFragment(steps_Array,steps_Array.get(2));
-//            fragmentManager.beginTransaction().add(R.id.Master_fragment_container,step_instructionFragment).commit();
-
-
-        }
+        fragmentManager.beginTransaction().replace(R.id.Details_fragment_container,recipe_detailsFragment).commit();
     }
 
     @Override
