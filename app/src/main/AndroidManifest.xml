@@ -22,9 +22,7 @@
         <activity android:name=".step_instructionActivity" />
         <activity
             android:name=".FullscreenVideoActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen_video"
-
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="landscape" />
     </application>
