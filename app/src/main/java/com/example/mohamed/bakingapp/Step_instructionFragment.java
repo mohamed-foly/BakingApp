@@ -10,13 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.example.mohamed.bakingapp.model.Step;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 @SuppressLint("ValidFragment")
@@ -25,11 +37,14 @@ public class Step_instructionFragment extends Fragment {
     Step step;
     ArrayList<Step> steps ;
     TextView Desc_tv;
-    VideoView videoView;
-    MediaController mc;
+    //VideoView videoView;
+    PlayerView playerView;
+    //MediaController mc;
 
     View masterView ;
-    Button fullscreen,next,pervious;
+    Button fullscreen,next,previous;
+
+
     public Step_instructionFragment() {
     }
     @SuppressLint("ValidFragment")
@@ -53,10 +68,11 @@ public class Step_instructionFragment extends Fragment {
         // Inflate the layout for this fragment
         masterView = inflater.inflate(R.layout.fragment_step_instruction, container, false);
         Desc_tv = masterView.findViewById(R.id.desc);
-        videoView = masterView.findViewById(R.id.videoView);
+        //videoView = masterView.findViewById(R.id.videoView);
+        playerView = masterView.findViewById(R.id.exo_player);
         fullscreen = masterView.findViewById(R.id.fullscreen);
         next= masterView.findViewById(R.id.next);
-        pervious= masterView.findViewById(R.id.pervious);
+        previous= masterView.findViewById(R.id.pervious);
 
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -66,10 +82,10 @@ public class Step_instructionFragment extends Fragment {
             }
         });
 
-        pervious.setOnClickListener(new View.OnClickListener() {
+        previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pervious();
+                previous();
             }
         });
 
@@ -85,7 +101,7 @@ public class Step_instructionFragment extends Fragment {
 
 
 
-    public void pervious(){
+    public void previous(){
         step = steps.get(steps.indexOf(step)-1);
         load_step();
     }
@@ -93,18 +109,39 @@ public class Step_instructionFragment extends Fragment {
         step = steps.get(steps.indexOf(step)+1);
         load_step();
     }
-
+    DefaultBandwidthMeter bandwidthMeter;
+    TrackSelection.Factory videoTrackSelectionFactory;
+    TrackSelector trackSelector;
+    SimpleExoPlayer player;
+    DataSource.Factory dataSourceFactory;
+    MediaSource videoSource;
     private void load_step (){
         if (step != null) {
             videoUrl = step.getVideoURL();
-           getActivity().setTitle(step.getShortDescription());
+           Objects.requireNonNull(getActivity()).setTitle(step.getShortDescription());
             Desc_tv.setText(step.getDescription());
             Uri video = Uri.parse(videoUrl);
 
-            videoView.setMediaController(mc);
-            videoView.setVideoURI(video);
-            videoView.requestFocus();
-            videoView.start();
+
+
+
+
+            bandwidthMeter = new DefaultBandwidthMeter();
+            videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+            trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+            player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
+            playerView.setPlayer(player);
+            dataSourceFactory = new DefaultDataSourceFactory(Objects.requireNonNull(getContext()), Util.getUserAgent(getContext(), "BakingApp"), bandwidthMeter);
+            videoSource = new ExtractorMediaSource.Factory(dataSourceFactory) .createMediaSource(video);
+            player.prepare(videoSource);
+
+
+
+            /////// old Player Configuration /////
+//            videoView.setMediaController(mc);
+//            videoView.setVideoURI(video);
+//            videoView.requestFocus();
+//            videoView.start();
 
         }
     }

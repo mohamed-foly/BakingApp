@@ -16,10 +16,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <VideoView
-                android:id="@+id/videoView"
+            <!--<VideoView-->
+                <!--android:id="@+id/videoView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="200dp" />-->
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/exo_player"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
+
+
             <TextView
                 android:id="@+id/desc"
                 android:layout_width="match_parent"

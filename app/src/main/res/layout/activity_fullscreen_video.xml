@@ -6,8 +6,13 @@
     android:background="#0099cc"
     tools:context=".FullscreenVideoActivity"
     android:id="@+id/fullscreen_content">
-    <VideoView
-        android:id="@+id/videoView"
+    <!--<VideoView-->
+        <!--android:id="@+id/videoView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/exo_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
