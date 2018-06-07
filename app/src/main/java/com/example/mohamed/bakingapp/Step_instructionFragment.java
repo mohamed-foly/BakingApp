@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mohamed.bakingapp.model.Step;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -44,6 +47,7 @@ public class Step_instructionFragment extends Fragment {
     View masterView ;
     Button fullscreen,next,previous;
 
+    //Long player_pos;
 
     public Step_instructionFragment() {
     }
@@ -53,19 +57,32 @@ public class Step_instructionFragment extends Fragment {
         this.steps = new ArrayList<>();
         this.steps = steps;
         this.step = step;
-
     }
-
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Long pos = player.getCurrentPosition();
 
+        Log.e("savedInst","Saving value "+String.valueOf(pos));
+        //savedInstanceState.putLong("POS",pos);
+        step.saved_position = pos;
+        savedInstanceState.putParcelable("step",step);
+        savedInstanceState.putParcelableArrayList("steps",steps);
+        //savedInstanceState.putParcelable("step",step);
+    }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (savedInstanceState != null){
+
+            //player_pos = savedInstanceState.getLong("POS");
+            step = savedInstanceState.getParcelable("step");
+            steps = savedInstanceState.getParcelableArrayList("steps");
+
+        }
         // Inflate the layout for this fragment
+
         masterView = inflater.inflate(R.layout.fragment_step_instruction, container, false);
         Desc_tv = masterView.findViewById(R.id.desc);
         //videoView = masterView.findViewById(R.id.videoView);
@@ -95,19 +112,47 @@ public class Step_instructionFragment extends Fragment {
                 full_screen();
             }
         });
+
         load_step();
         return masterView;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        player.setPlayWhenReady(false);
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        player.release();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (player != null){
+            player.setPlayWhenReady(true);
+        }
+    }
     public void previous(){
-        step = steps.get(steps.indexOf(step)-1);
-        load_step();
+        if (steps.indexOf(step)-1 >=0) {
+            step.saved_position = player.getCurrentPosition();
+            step = steps.get(steps.indexOf(step) - 1);
+            load_step();
+        }else{
+            Toast.makeText(getContext(), "no more previous", Toast.LENGTH_SHORT).show();
+        }
     }
     public void  next(){
-        step = steps.get(steps.indexOf(step)+1);
-        load_step();
+        if (steps.indexOf(step)+1 < steps.size()){
+            step.saved_position = player.getCurrentPosition();
+            step = steps.get(steps.indexOf(step)+1);
+            load_step();
+        }else{
+            Toast.makeText(getContext(), "no more steps", Toast.LENGTH_SHORT).show();
+        }
     }
     DefaultBandwidthMeter bandwidthMeter;
     TrackSelection.Factory videoTrackSelectionFactory;
@@ -135,13 +180,12 @@ public class Step_instructionFragment extends Fragment {
             videoSource = new ExtractorMediaSource.Factory(dataSourceFactory) .createMediaSource(video);
             player.prepare(videoSource);
 
-
-
-            /////// old Player Configuration /////
-//            videoView.setMediaController(mc);
-//            videoView.setVideoURI(video);
-//            videoView.requestFocus();
-//            videoView.start();
+//            if (player_pos != null){
+//                player.seekTo(player_pos);
+//            }
+            if (step.saved_position != null){
+                player.seekTo(step.saved_position);
+            }
 
         }
     }

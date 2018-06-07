@@ -9,6 +9,7 @@ import android.os.Parcelable.Creator;
 public class Step implements Parcelable
 {
 
+    public  Long saved_position;
     private Integer id;
     private String shortDescription;
     private String description;

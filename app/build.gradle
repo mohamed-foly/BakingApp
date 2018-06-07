@@ -31,4 +31,23 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
 
     implementation 'com.google.android.exoplayer:exoplayer:2.8.1'
+
+
+    testImplementation 'junit:junit:4.12'
+
+    // Android runner and rules support
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
+    // Espresso support
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    // add this for intent mocking support
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
+
+    // add this for webview testing support
+    androidTestImplementation 'com.android.support.test.espresso:espresso-web:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
 }

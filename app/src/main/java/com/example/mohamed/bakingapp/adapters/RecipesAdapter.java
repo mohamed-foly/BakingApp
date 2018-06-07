@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mohamed.bakingapp.R;
+import com.example.mohamed.bakingapp.interfaces.OnRecipeSelected;
 import com.example.mohamed.bakingapp.model.Recipe;
 
 import java.util.ArrayList;
@@ -19,9 +20,9 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private Context context;
     private ArrayList<Recipe> recipes;
-    private final RecipesAdapter.OnItemClickListener listener;
+    private final OnRecipeSelected listener;
 
-    public RecipesAdapter(Context context, ArrayList<Recipe> recipes, RecipesAdapter.OnItemClickListener listener){
+    public RecipesAdapter(Context context, ArrayList<Recipe> recipes, OnRecipeSelected listener){
         this.context = context;
         this.recipes = recipes;
         this.listener = listener;
@@ -61,20 +62,14 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
 
-        void bind(final Recipe item, final OnItemClickListener listener) {
+        void bind(final Recipe item, final OnRecipeSelected listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClick(item);
+                    listener.onRecipeSelected_listener(item);
                 }
             });
         }
     }
-
-
-    public interface OnItemClickListener {
-        void onItemClick(Recipe item);
-    }
-
 
 }
